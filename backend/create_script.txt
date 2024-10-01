@@ -1,0 +1,160 @@
+-- Create user_master table
+CREATE TABLE user_master (
+    id UUID PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(15) NOT NULL
+);
+
+-- Create student_master table
+CREATE TABLE student_master (
+    id UUID PRIMARY KEY,
+    roll_number VARCHAR NOT NULL,
+    enrollment_number VARCHAR NOT NULL UNIQUE,
+    name VARCHAR NOT NULL,
+    department VARCHAR NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    year INTEGER NOT NULL,
+    admission_year INTEGER NOT NULL,
+    course_name VARCHAR NOT NULL,
+    specialization VARCHAR NOT NULL,
+    division VARCHAR NOT NULL,
+    age INTEGER NOT NULL,
+    phone VARCHAR NOT NULL,
+    blood_group VARCHAR NOT NULL,
+    secondary_phone VARCHAR,
+    gender VARCHAR NOT NULL,
+    dob DATE NOT NULL,
+    guardian_type VARCHAR NOT NULL,
+    guardian_name VARCHAR NOT NULL,
+    guardian_phone VARCHAR NOT NULL,
+    user_id UUID NOT NULL REFERENCES user_master(id),
+    UNIQUE (email, enrollment_number)
+);
+
+CREATE INDEX idx_student_master_roll_number ON student_master(roll_number);
+CREATE INDEX idx_student_master_email ON student_master(email);
+CREATE INDEX idx_student_master_enrollment_number ON student_master(enrollment_number);
+
+-- Create admin_master table
+CREATE TABLE admin_master (
+    id UUID PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    about TEXT NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    phone VARCHAR NOT NULL
+);
+
+CREATE INDEX idx_admin_master_email ON admin_master(email);
+
+-- Create faculty_master table
+CREATE TABLE faculty_master (
+    id UUID PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    qualification VARCHAR NOT NULL,
+    department VARCHAR NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    age INTEGER NOT NULL,
+    phone VARCHAR,
+    user_id UUID NOT NULL REFERENCES user_master(id)
+);
+
+CREATE INDEX idx_faculty_master_email ON faculty_master(email);
+
+-- Create alumni_info table
+CREATE TABLE alumni_info (
+    roll_number VARCHAR PRIMARY KEY,
+    enrollment_number VARCHAR NOT NULL UNIQUE,
+    name VARCHAR NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    department VARCHAR NOT NULL,
+    graduation_year INTEGER NOT NULL,
+    current_company VARCHAR,
+    about TEXT,
+    specialization VARCHAR NOT NULL,
+    division VARCHAR NOT NULL,
+    age INTEGER NOT NULL,
+    phone VARCHAR NOT NULL,
+    blood_group VARCHAR NOT NULL,
+    gender VARCHAR NOT NULL,
+    dob DATE NOT NULL,
+    user_id UUID NOT NULL REFERENCES user_master(id)
+);
+
+CREATE INDEX idx_alumni_info_email ON alumni_info(email);
+CREATE INDEX idx_alumni_info_enrollment_number ON alumni_info(enrollment_number);
+
+-- Create attendance table
+CREATE TABLE attendance (
+    sheet_id UUID PRIMARY KEY,
+    creation_datetime TIMESTAMP,
+    valid_till_date TIMESTAMP,
+    department VARCHAR,
+    year INTEGER,
+    specialization VARCHAR,
+    division VARCHAR,
+    subject_id INTEGER,
+    faculty_id UUID REFERENCES faculty_master(id),
+    subject_name VARCHAR,
+    faculty_name VARCHAR,
+    sheet_link VARCHAR
+);
+
+-- Create classroom_master table
+CREATE TABLE classroom_master (
+    id UUID PRIMARY KEY,
+    total_credits INTEGER,
+    faculty_id UUID REFERENCES faculty_master(id),
+    faculty_name VARCHAR,
+    department VARCHAR,
+    year INTEGER,
+    specialization VARCHAR,
+    division VARCHAR,
+    students_count INTEGER,
+    subject_id INTEGER,
+    subject_name VARCHAR,
+    creation_datetime TIMESTAMP,
+    expiry_datetime TIMESTAMP
+);
+
+CREATE INDEX idx_classroom_master_id ON classroom_master(id);
+
+-- Create class_post table
+CREATE TABLE class_post (
+    id SERIAL PRIMARY KEY,
+    post_media VARCHAR,
+    submission_media VARCHAR,
+    title VARCHAR,
+    body TEXT,
+    classroom_id UUID REFERENCES classroom_master(id),
+    creation_datetime TIMESTAMP,
+    deadline_datetime TIMESTAMP,
+    total_marks INTEGER
+);
+
+CREATE INDEX idx_class_post_id ON class_post(id);
+
+-- Create assignment_master table
+CREATE TABLE assignment_master (
+    id UUID PRIMARY KEY,
+    creation_datetime TIMESTAMP,
+    deadline_datetime TIMESTAMP,
+    total_marks INTEGER,
+    faculty_id UUID REFERENCES faculty_master(id),
+    faculty_name VARCHAR,
+    subject_id INTEGER,
+    subject_name VARCHAR,
+    title VARCHAR,
+    body TEXT,
+    media VARCHAR
+);
+
+-- Create calendar table
+CREATE TABLE calendar (
+    id UUID PRIMARY KEY,
+    date DATE NOT NULL,
+    event VARCHAR NOT NULL,
+    user_id UUID REFERENCES user_master(id)
+);
+
+CREATE INDEX idx_calendar_id ON calendar(id);

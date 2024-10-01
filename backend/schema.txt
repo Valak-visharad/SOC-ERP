@@ -1,0 +1,42 @@
+// TASK 1-
+// Login:
+users (id, email, password, role)
+
+// TASK 2-
+// Student:
+studentinfo (rollnumber, enrollmentnumber, name, emailid, department, year, yearofadmission, coursename, specialization, division, age, phone, profilepicture, bloodgroup, emergencycontact, gender, dob, guardiantype, guardianname, guardianphone)
+assignment (id, datetime, rollnumber, assignmentid, mediauploaded)
+
+// Admin (Administrator):
+admininfo (id, name, about, emailid, phone, profilepicture)
+
+// Faculty:
+facultyinfo (id, name, qualification, about, department, emailid, age, phone, profilepicture)
+ 
+// Alumni:
+alumniinfo (rollnumber, enrollmentnumber, name, emailid, department, graduationyear, currentcompany, about, specialization, division, age, phone, profilepicture, bloodgroup, emergencycontact, gender, dob, guardiantype, guardianname, guardianphone)
+
+// TASK 3-
+// ATTENDANCE:
+attendance (sheetid, creationdatetime, validtilldate, department, year, specialization, division, subjectid, facultyid, subjectname, facultyname, sheetlink)
+
+// CLASSES:
+classrooms (classroomid, totalcredits, facultyid, facultyname, facultyprofilepic, department, year, specialization, division, studentscount, subjectid, subjectname, creationdatetime, expirydatetime)
+// classpost (postid, postmedia, submissionmedia, title, bodytext, classid, creationdatetime, deadlinedatetime, totalmarks)
+
+// ASSIGNMENT:
+assignments (assignmentid, creationdatetime, deadlinedatetime, totalmarks, facultyid, facultyname, subjectid, subjectname, title, textbody, medialink)
+
+// TASK 4-
+// frontend and backend directly handles this
+
+// TASK 5-
+calender (eventid, date, event, role, userid)
+
+
+
+
+
+
+// COMMONERS
+// CLASS: (department, year, specialization, division)
